@@ -1,12 +1,15 @@
 { config, pkgs, ... }:
 
+let
+    targetUser = builtins.getEnv "TARGET_USER";
+in
 {
-    # Enable nix-darwin modules
+    # System packages
     environment.systemPackages = with pkgs; [
         dockutil
     ];
 
-    # Example system settings
+    # System settings
     system.defaults.siri.enabled = false;
     system.defaults.screentime.enabled = false;
 
@@ -25,24 +28,27 @@
     # Menu extras
     system.defaults.menuextra.battery.ShowPercent = true;
 
-    # Screenshot location
-    system.defaults.screencapture.location = "${config.users.users.bnelson.home}/Screenshots";
+    # Screenshot location → use target user dynamically
+    system.defaults.screencapture.location = "/Users/${targetUser}/Screenshots";
 
     # Networking
     networking.computerName = "Mac-Configured";
     networking.hostName = "mac-configured";
 
-    # Homebrew settings
+    # Homebrew apps
     homebrew.enable = true;
+    homebrew.brews = [ ];
     homebrew.casks = [
         "google-chrome"
         "zoom"
     ];
 
-    # Shell (optional)
+    # Shell
     programs.zsh.enable = true;
-    users.users.bnelson = {
-        home = "/Users/bnelson";
+
+    # Users → "admin" is the default account you log in with
+    users.users.admin = {
+        home = "/Users/admin";
         shell = pkgs.zsh;
     };
 }

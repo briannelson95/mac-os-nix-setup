@@ -16,9 +16,15 @@ curl -L https://nixos.org/nix/install | sh
 
 ```bash
 git clone https://github.com/briannelson95/mac-os-nix-setup.git
+cd mac-os-nix-setup
 ```
 
-3. Run the instlal script
+3. 
+```env
+TARGET_USER=firstlast
+```
+
+4. Run the instlal script
 
 ```bash
 ./install.sh
