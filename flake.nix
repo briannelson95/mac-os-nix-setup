@@ -8,17 +8,18 @@
 
   outputs = { self, nix-darwin, nixpkgs, ... }:
     let
-      system = builtins.currentSystem;
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in {
-      darwinConfigurations = {
-        "macos-nix-setup" = nix-darwin.lib.darwinSystem {
-          inherit system;
-          modules = [ ./darwin-configuration.nix ];
+        # Read SYSTEM_ARCH from env
+        system = builtins.getEnv "SYSTEM_ARCH";
+        pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
         };
-      };
+    in {
+        darwinConfigurations = {
+            "macos-nix-setup" = nix-darwin.lib.darwinSystem {
+                inherit system;
+                modules = [ ./darwin-configuration.nix ];
+            };
+        };
     };
 }

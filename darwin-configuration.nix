@@ -2,8 +2,13 @@
 
 let
     targetUser = builtins.getEnv "TARGET_USER";
+    stateVersion = builtins.getEnv "SYSTEM_STATE_VERSION";
+    primaryUser = builtins.getEnv "SYSTEM_PRIMARY_USER";
 in
 {
+    system.stateVersion = 6;
+
+    system.primaryUser = targetUser;
     # System packages
     environment.systemPackages = with pkgs; [
         dockutil
@@ -24,9 +29,6 @@ in
     system.defaults.dock.magnification = true;
     system.defaults.NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
     system.defaults.NSGlobalDomain.PMPrintingExpandedStateForPrint = true;
-
-    # Menu extras
-    system.defaults.menuextra.battery.ShowPercent = true;
 
     # Screenshot location → use target user dynamically
     system.defaults.screencapture.location = "/Users/${targetUser}/Screenshots";
