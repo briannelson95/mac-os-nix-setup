@@ -1,6 +1,5 @@
-# flake.nix
 {
-    description = "My macOS config";
+    description = "macOS Nix + nix-darwin config for briannelson95";
 
     inputs = {
         nix-darwin.url = "github:lnl7/nix-darwin";
@@ -9,11 +8,19 @@
 
     outputs = { self, nix-darwin, nixpkgs, ... }:
         let
-            system = "aarch64-darwin"; # Use x86_64-darwin for Intel Macs
-        in {
-            darwinConfigurations."Mac-Configured" = nix-darwin.lib.darwinSystem {
-                system = system;
-                modules = [ ./darwin-configuration.nix ];
+            # Auto-detect current system architecture
+            system = builtins.currentSystem;
+
+            pkgs = import nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
             };
+        in {
+            darwinConfigurations = {
+                "macos-nix-setup" = nix-darwin.lib.darwinSystem {
+                    inherit system;
+                    modules = [ ./darwin-configuration.nix ];
+                };
         };
+    };
 }

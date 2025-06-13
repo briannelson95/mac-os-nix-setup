@@ -1,0 +1,12 @@
+
+---
+
+### 5️⃣ `.gitignore` (optional but helpful)
+
+```gitignore
+# Ignore Nix build files
+/result
+/result-* 
+/nix
+/.direnv
+.envrc
