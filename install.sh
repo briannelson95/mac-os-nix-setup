@@ -22,4 +22,4 @@ fi
 echo "==> Installing nix-darwin and applying configuration..."
 # Export TARGET_USER so Nix can see it
 export TARGET_USER
-nix run .#darwinConfigurations.macos-nix-setup.system
+nix run .#darwinConfigurations.macos-nix-setup.system --extra-experimental-features nix-command --extra-experimental-features flakes --override-input target-user "$TARGET_USER"
